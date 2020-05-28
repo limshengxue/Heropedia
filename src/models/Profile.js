@@ -8,7 +8,6 @@ export default class Profile{
         try{
          const respond = await axios(`https://api.allorigins.win/raw?url=https://superheroapi.com/api/3111630088923163/${input}`)
         const data = respond.data
-        console.log(data)
             this.name = data.name    
             this.id = data.id
             this.img = data.image.url

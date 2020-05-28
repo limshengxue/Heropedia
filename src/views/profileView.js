@@ -4,7 +4,11 @@ export const renderProfile = (profile) => {
 let alias = "";
 for(let string of profile.biography.aliases){
     if(alias.length < 37){
-        alias = alias + string + ", "
+        if(string != "-"){
+         alias = alias + string + ", "   
+        }else{
+            alias = 'none'
+        }
     }else{
         alias = alias + "..."
         break

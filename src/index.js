@@ -11,13 +11,14 @@ const state ={
 //Initialise
 const loadResults = async function(page = 1){
     try{
+    clear(DOMSelectors.resultPanel)
       //First window load in 10 heroes
-    state.results = new Results
+    state.results = new Results()
     renderLoader(DOMSelectors.resultPanel)
     const results = await state.results.loadResults(page)
-    clear(DOMSelectors.resultPanel)
     //Display the heroes
-     resultsView.renderResults(results)
+    clear(DOMSelectors.resultPanel)
+     results.forEach(el=>resultsView.renderResults(el))
     //Render Paging Buttons
     resultsView.renderButtons(page)  
     }catch(error){
@@ -31,14 +32,19 @@ window.addEventListener("load",init)
 
 //Paging
 DOMSelectors.resultPanel.addEventListener("click",e=>{
-if(e.target.closest('.next','.prev')){
-     const page = e.target.closest('.next','.prev').dataset.set
-     clear(DOMSelectors.resultPanel)
+if(e.target.matches('.prev')||e.target.matches('.next')){
+    let page;
+    if(e.target.closest('.prev')){
+        page = e.target.closest('.prev').dataset.set  
+    }else{
+        page = e.target.closest('.next').dataset.set
+    }
      const id = e.target.parentNode.id
      if(id == 'id'){
        loadResults(page)   
      }else{
-         loadResults(page,'name')
+        resultsView.renderSearchResult(page,state.results.results)
+        resultsView.renderButtons(page,state.results.results.length,'name')
      }
 }
 })
@@ -72,18 +78,18 @@ const loadProfile = async function(){
 window.addEventListener('hashchange',loadProfile)
 window.addEventListener('load',loadProfile)
 
+//Search Hero
 const searchProfile = async function(){
     const name = document.querySelector('#searchBar').value
     if(name){
     clear(DOMSelectors.resultPanel)
     state.results = new Results()
     renderLoader(DOMSelectors.resultPanel)
-    const result = await state.results.loadResults(1,'name',name)
-    console.log(result)
+    const result = await state.results.searchHero(name)
     clear(DOMSelectors.resultPanel)
     //Display the heroes
-    resultsView.renderResults(result)
-    
+    resultsView.renderSearchResult(1,result)
+    resultsView.renderButtons(1,state.results.results.length,'name')
     }
 }
 
