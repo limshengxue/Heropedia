@@ -1,7 +1,9 @@
 export const DOMSelectors = {
 resultPanel : document.querySelector(".resultPanel"),
 profilePanel : document.querySelector('.heroProfile'),
-searchForm : document.querySelector('.search')
+searchForm : document.querySelector('.search'),
+favPanel : document.querySelector('.favList'),
+favIcon : document.querySelector('.favButton')
 }
 
 export const renderLoader = (position) => {

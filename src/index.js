@@ -3,6 +3,8 @@ import * as resultsView from './views/resultsView'
 import {DOMSelectors,renderLoader,clear} from './views/base'
 import Profile from './models/Profile'
 import * as profileView from './views/profileView'
+import Favs from './models/Favs'
+import * as favsView from './views/favsView'
 
 const state ={
 
@@ -67,7 +69,7 @@ DOMSelectors.resultPanel.addEventListener("submit",e=>{
 const loadProfile = async function(){
     let input = location.hash.toString().replace('#','')
     if(input){
-        if(!state.profile) state.profile = new Profile()
+        state.profile = new Profile()
         clear(DOMSelectors.profilePanel)
         renderLoader(DOMSelectors.profilePanel)
         const profile = await state.profile.loadProfile(input)
@@ -94,3 +96,23 @@ const searchProfile = async function(){
 }
 
 DOMSelectors.searchForm.addEventListener('submit',searchProfile)
+
+//Add as favourite
+DOMSelectors.profilePanel.addEventListener('click',e=>{
+    if(e.target.closest('.addFav')){
+        if(!state.favs) state.favs = new Favs()
+        state.favs.addFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
+        favsView.renderFavsIcon(state.favs.favs)
+        favsView.renderFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
+    }
+})
+
+//Remove favs
+DOMSelectors.favPanel.addEventListener('click',e=>{
+    if(e.target.closest('.deleteBtn')){
+        let id = e.target.parentNode.getAttribute("id")
+        state.favs.removeFavs(id)
+        favsView.removeFavs(id)
+        favsView.renderFavsIcon(state.favs.favs)
+    }
+})
