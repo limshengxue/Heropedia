@@ -6,23 +6,23 @@ import * as profileView from './views/profileView'
 import Favs from './models/Favs'
 import * as favsView from './views/favsView'
 
-const state ={
-
-};
+const state= {};
 
 //Initialise
 const loadResults = async function(page = 1){
     try{
-    clear(DOMSelectors.resultPanel)
+    DOMSelectors.searchBtn.disabled = true; 
       //First window load in 10 heroes
     state.results = new Results()
+    clear(DOMSelectors.resultPanel)
     renderLoader(DOMSelectors.resultPanel)
     const results = await state.results.loadResults(page)
     //Display the heroes
     clear(DOMSelectors.resultPanel)
      results.forEach(el=>resultsView.renderResults(el))
     //Render Paging Buttons
-    resultsView.renderButtons(page)  
+    resultsView.renderButtons(page)
+    DOMSelectors.searchBtn.disabled = false;  
     }catch(error){
         console.log(error)
     }
@@ -31,6 +31,8 @@ const loadResults = async function(page = 1){
 const init = loadResults.bind(this,1)
 
 window.addEventListener("load",init)
+
+DOMSelectors.getAll.addEventListener('click',init)
 
 //Paging
 DOMSelectors.resultPanel.addEventListener("click",e=>{
@@ -81,7 +83,8 @@ window.addEventListener('hashchange',loadProfile)
 window.addEventListener('load',loadProfile)
 
 //Search Hero
-const searchProfile = async function(){
+const searchProfile = async function(e){
+    e.preventDefault()
     const name = document.querySelector('#searchBar').value
     if(name){
     clear(DOMSelectors.resultPanel)
@@ -95,15 +98,15 @@ const searchProfile = async function(){
     }
 }
 
-DOMSelectors.searchForm.addEventListener('submit',searchProfile)
+DOMSelectors.searchForm.addEventListener('submit',e=>searchProfile(e))
 
 //Add as favourite
 DOMSelectors.profilePanel.addEventListener('click',e=>{
     if(e.target.closest('.addFav')){
         if(!state.favs) state.favs = new Favs()
-        state.favs.addFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
+        const status = state.favs.addFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
         favsView.renderFavsIcon(state.favs.favs)
-        favsView.renderFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
+        if(status)favsView.renderFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
     }
 })
 
@@ -115,4 +118,11 @@ DOMSelectors.favPanel.addEventListener('click',e=>{
         favsView.removeFavs(id)
         favsView.renderFavsIcon(state.favs.favs)
     }
+})
+
+//Persist favs
+window.addEventListener('load',()=>{
+    state.favs = new Favs()
+    state.favs.retrieveData()
+    state.favs.favs.forEach(el=>favsView.renderFavs(el.id,el.name,el.publisher))
 })

@@ -4,7 +4,11 @@ export default class Favs{
     }
     addFavs(id,name,publisher){
         const fav = {id,name,publisher}
-        this.favs.push(fav)
+         if(!this.favs.some(el=>el.id == fav.id)){
+          this.favs.push(fav)
+          this.persistData() 
+          return true 
+        }   
     }
     removeFavs(id){
         this.favs.forEach((el,i)=>{
@@ -12,5 +16,13 @@ export default class Favs{
                 this.favs.splice(i,1)
             }
         })
+        this.persistData()
+    }
+    persistData(){
+        localStorage.setItem("favs",JSON.stringify(this.favs))
+    }
+    retrieveData(){
+        const data = JSON.parse(localStorage.getItem("favs"))
+        if(data) this.favs = data
     }
 }

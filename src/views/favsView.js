@@ -2,7 +2,7 @@ import {DOMSelector, DOMSelectors} from './base'
 
 export const renderFavs = (id,name,publisher) => {
     if(publisher.length + name.length > 20){
-        publisher = publisher.slice(0,5) + "..."
+        publisher = publisher.slice(0,20-publisher.length) + ".."
     }
     const markup = 
     ` <div class = "favs" id="${id}">

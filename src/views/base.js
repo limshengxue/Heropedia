@@ -3,7 +3,9 @@ resultPanel : document.querySelector(".resultPanel"),
 profilePanel : document.querySelector('.heroProfile'),
 searchForm : document.querySelector('.search'),
 favPanel : document.querySelector('.favList'),
-favIcon : document.querySelector('.favButton')
+favIcon : document.querySelector('.favButton'),
+getAll : document.querySelector('.searchAll'),
+searchBtn : document.querySelector('.searchBtn')
 }
 
 export const renderLoader = (position) => {

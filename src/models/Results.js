@@ -22,12 +22,16 @@ export default class Results{
         return this.results
     }
     async searchHero(name){
-        const respond = await axios (`https://api.allorigins.win/raw?url=https://superheroapi.com/api/3111630088923163/search/${name}`)  
+        try{
+         const respond = await axios (`https://api.allorigins.win/raw?url=https://superheroapi.com/api/3111630088923163/search/${name}`)  
         const data = respond.data.results
         data.forEach(el => {
         const result = {id : el.id,name : el.name,publisher : el.biography.publisher,img : el.image.url}
         this.results.push(result)     
-        })
+        })   
+        }catch(error){
+            alert(`${Error} ! Hero not found. Please try again`)
+        }
         return this.results           
     }
 }
