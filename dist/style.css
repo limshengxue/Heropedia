@@ -184,7 +184,7 @@ h2.heroBio{
 
 .favList{
     position: absolute;
-    top: 120px;
+    top: 110px;
     left: 1045px;
     background-color:#002651;
     width:300px;
@@ -241,7 +241,9 @@ ul{
     display: inline-block;
     border: none;
 }
-
+.favName{
+    margin-left: 0px;
+}
 .favs:hover .deleteBtn{
     display:inline-block;
     animation-name: delete;
@@ -381,3 +383,15 @@ div.loader {
     border-radius: 20px;
   }
   
+  footer {
+      background-color:  #0e153a ;
+      color: white;
+        height: 50px;
+        position: relative;
+        bottom: 65px;
+        padding-left: 20px;
+  }
+  footer a{
+      color: white;
+      text-decoration: underline;
+  }

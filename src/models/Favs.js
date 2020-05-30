@@ -3,7 +3,7 @@ export default class Favs{
         this.favs = []
     }
     addFavs(id,name,publisher){
-        const fav = {id,name,publisher}
+        const fav = {id,name}
          if(!this.favs.some(el=>el.id == fav.id)){
           this.favs.push(fav)
           this.persistData() 

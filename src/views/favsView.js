@@ -1,14 +1,10 @@
 import {DOMSelector, DOMSelectors} from './base'
 
-export const renderFavs = (id,name,publisher) => {
-    if(publisher.length + name.length > 20){
-        publisher = publisher.slice(0,20-publisher.length) + ".."
-    }
+export const renderFavs = (id,name) => {
     const markup = 
     ` <div class = "favs" id="${id}">
     <a href ="#${id}" class="favs"> 
-    <h4 class="favName">${name}</h4>
-    <p class="favPublisher">${publisher}</p> 
+    <h4 class="favName">${name}</h4> 
     </a>
     <img class="deleteBtn" src="img/Icons8_flat_delete_generic.svg.png">
     </div>`

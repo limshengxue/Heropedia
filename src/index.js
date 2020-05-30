@@ -95,6 +95,7 @@ const searchProfile = async function(e){
     //Display the heroes
     resultsView.renderSearchResult(1,result)
     resultsView.renderButtons(1,state.results.results.length,'name')
+    document.querySelector('#searchBar').value = ""
     }
 }
 
@@ -104,9 +105,9 @@ DOMSelectors.searchForm.addEventListener('submit',e=>searchProfile(e))
 DOMSelectors.profilePanel.addEventListener('click',e=>{
     if(e.target.closest('.addFav')){
         if(!state.favs) state.favs = new Favs()
-        const status = state.favs.addFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
+        const status = state.favs.addFavs(state.profile.id,state.profile.name)
         favsView.renderFavsIcon(state.favs.favs)
-        if(status)favsView.renderFavs(state.profile.id,state.profile.name,state.profile.biography.publisher)
+        if(status)favsView.renderFavs(state.profile.id,state.profile.name)
     }
 })
 
@@ -124,5 +125,6 @@ DOMSelectors.favPanel.addEventListener('click',e=>{
 window.addEventListener('load',()=>{
     state.favs = new Favs()
     state.favs.retrieveData()
-    state.favs.favs.forEach(el=>favsView.renderFavs(el.id,el.name,el.publisher))
+    favsView.renderFavsIcon(state.favs.favs)
+    state.favs.favs.forEach(el=>favsView.renderFavs(el.id,el.name))
 })

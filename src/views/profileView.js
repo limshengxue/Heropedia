@@ -5,7 +5,7 @@ let alias = "";
 for(let string of profile.biography.aliases){
     if(alias.length < 37){
         if(string != "-"){
-         alias = alias + string + ", "   
+         alias = alias + string + " ,"   
         }else{
             alias = 'none'
         }
@@ -14,6 +14,7 @@ for(let string of profile.biography.aliases){
         break
     }
 }
+if(alias.charAt(alias.length-1) == ",") alias = alias.slice(0,alias.length-1)
 const markup = 
 `<h1 class="heroTitle">${profile.name}</h1>
 <h3 class="heroOrigin">from the ${profile.biography.publisher}</h3>
